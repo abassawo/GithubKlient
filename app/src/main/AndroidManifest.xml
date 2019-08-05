@@ -3,6 +3,8 @@
     package="com.abasscodes.githubklient">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application android:name=".GitKlientApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,6 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".screens.searchresults.SearchResultsActivity" />
+        <activity android:name=".screens.detail.DetailActivity" />
     </application>
 
 </manifest>

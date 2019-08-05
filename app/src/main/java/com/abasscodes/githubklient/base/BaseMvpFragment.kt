@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 
-abstract class BaseMvpFragment<P : BaseContract.Presenter<*>> : Fragment() {
+abstract class BaseMvpFragment<P : BaseContract.Presenter<*>> : Fragment(), BaseContract.View {
 
     private lateinit var presenter: P
 
@@ -24,6 +24,10 @@ abstract class BaseMvpFragment<P : BaseContract.Presenter<*>> : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         onViewCreated(savedInstanceState)
         presenter = getPresenter()
+    }
+
+    override fun showError() {
+
     }
 
     /**

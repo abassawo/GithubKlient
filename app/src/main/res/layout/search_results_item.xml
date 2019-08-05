@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/card_view_height"
+    android:layout_marginStart="@dimen/card_view_margin_start"
+    android:layout_marginTop="@dimen/card_view_margin_top"
+    android:layout_marginEnd="@dimen/card_view_margin_end"
+    android:clickable="true"
+    android:focusable="false"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardMaxElevation="@dimen/card_view_elevation"
+    tools:ignore="KeyboardInaccessibleWidget">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/item_view_padding">
+
+        <TextView
+            android:id="@+id/repoName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/item_view_title"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/repoStars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/item_view_body" />
+
+        <TextView
+            android:id="@+id/repoDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="2"
+            android:textSize="@dimen/item_view_body" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+

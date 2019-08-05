@@ -2,7 +2,9 @@ package com.abasscodes.githubklient.base
 
 interface BaseContract {
 
-    interface View
+    interface View {
+        fun showError()
+    }
 
     interface Presenter<V : View> {
         fun bindView(view: V)

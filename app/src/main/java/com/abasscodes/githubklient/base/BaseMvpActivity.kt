@@ -16,6 +16,10 @@ abstract class BaseMvpActivity<P : BaseContract.Presenter<*>> : AppCompatActivit
         presenter = getPresenter()
     }
 
+    override fun showError() {
+
+    }
+
     /**
      * Override this method to do any additional view initialization (ex: init dagger)
      */

@@ -1,7 +1,12 @@
 <resources>
-    <string name="app_name">Github Klient</string>
+    <string name="app_name">Github Client</string>
 
     <string name="internet_down_msg">Looks like internet access is not available</string>
     <!--Error Handling-->
     <string name="check_internet_settings">Network Settings</string>
+    <string name="suggested">Suggested</string>
+    <string name="search">Search</string>
+    <string name="history">History</string>
+    <string name="search_hint">Enter company name</string>
+    <string name="stars">Stars: %d</string>
 </resources>
