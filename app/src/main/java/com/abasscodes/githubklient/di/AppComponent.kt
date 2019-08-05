@@ -2,6 +2,7 @@ package com.abasscodes.githubklient.di
 
 import com.abasscodes.githubklient.GitKlientApp
 import com.abasscodes.githubklient.screens.main.MainActivity
+import com.abasscodes.githubklient.screens.suggestions.RecommendationFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -10,4 +11,5 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(app: GitKlientApp)
+    fun inject(recommendationFragment: RecommendationFragment)
 }

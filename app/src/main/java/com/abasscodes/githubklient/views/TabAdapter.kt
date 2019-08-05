@@ -1,0 +1,41 @@
+package com.abasscodes.githubklient.views
+
+import android.content.Context
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import com.abasscodes.githubklient.R
+import com.abasscodes.githubklient.models.PageNames
+import com.abasscodes.githubklient.screens.history.HistoryFragment
+import com.abasscodes.githubklient.screens.search.SearchFragment
+import com.abasscodes.githubklient.screens.suggestions.RecommendationFragment
+
+class TabAdapter(context: Context, fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    private val fragments = mutableListOf<Fragment>()
+    private val titles = mutableListOf<String>()
+
+    init {
+        for (value in PageNames.values()) {
+            when (value) {
+                PageNames.RecommendationPage ->  addFragment(RecommendationFragment.newInstance(), context.getString(R.string.suggested))
+                PageNames.SearchPage -> addFragment(SearchFragment(), context.getString(R.string.search))
+                PageNames.HistoryPage -> addFragment(HistoryFragment(), context.getString(R.string.history))
+            }
+        }
+        notifyDataSetChanged()
+    }
+
+    private fun addFragment(fragment: Fragment, title: String) {
+        fragments.add(fragment)
+        titles.add(title)
+    }
+
+    override fun getItem(position: Int) = fragments[position]
+
+    override fun getCount() = fragments.size
+
+    override fun getPageTitle(position: Int): CharSequence? {
+        return titles[position]
+    }
+
+}
