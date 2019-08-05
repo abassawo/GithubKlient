@@ -7,9 +7,11 @@ interface SearchResultsContract {
 
     interface View : BaseContract.View {
         fun showResultsFragment(repoModels: List<RepoModel>)
+        fun navigateToDetail(model: RepoModel)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
         fun onQueryEntered(query: String)
+        fun onSearchResultClicked(model: RepoModel)
     }
 }

@@ -1,4 +1,4 @@
-package com.abasscodes.githubklient.views.adapters
+package com.abasscodes.githubklient.views.adapters.tabs
 
 import android.content.Context
 import androidx.fragment.app.Fragment

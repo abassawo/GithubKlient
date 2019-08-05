@@ -1,6 +1,7 @@
 package com.abasscodes.githubklient.screens.suggestions
 
 import com.abasscodes.githubklient.base.BaseContract
+import com.abasscodes.githubklient.models.RecommendedCompany
 
 interface RecommendationContract {
 

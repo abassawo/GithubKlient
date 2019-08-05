@@ -1,4 +1,4 @@
-package com.abasscodes.githubklient.screens.suggestions
+package com.abasscodes.githubklient.models
 
 enum class RecommendedCompany constructor(val githubName: String) {
     NYTimes("nytimes"),

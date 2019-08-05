@@ -10,12 +10,12 @@ import com.abasscodes.githubklient.utils.inflateView
 import com.abasscodes.githubklient.views.adapters.searchresults.SearchResultsAdapter.SearchResultsViewHolder.Companion.LAYOUT_RES
 import kotlinx.android.synthetic.main.search_results_item.view.*
 
-class SearchResultsAdapter : RecyclerView.Adapter<BaseViewHolder<RepoModel>>() {
+class SearchResultsAdapter(val listener: OnSearchResultClickListener) : RecyclerView.Adapter<BaseViewHolder<RepoModel>>() {
     var repoModels: List<RepoModel> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultsViewHolder {
         val view = inflateView(parent, LAYOUT_RES)
-        return SearchResultsViewHolder(view)
+        return SearchResultsViewHolder(view, listener)
     }
 
     fun setData(repoModels: List<RepoModel>) {
@@ -29,19 +29,23 @@ class SearchResultsAdapter : RecyclerView.Adapter<BaseViewHolder<RepoModel>>() {
 
     override fun getItemCount(): Int = repoModels.size
 
-    class SearchResultsViewHolder(view: View) : BaseViewHolder<RepoModel>(view) {
+    class SearchResultsViewHolder(view: View, val listener: OnSearchResultClickListener) : BaseViewHolder<RepoModel>(view) {
 
         override fun bind(item: RepoModel) {
             with(itemView) {
                 repoName.text = item.full_name
                 repoStars.text = context.getString(R.string.stars, item.stargazers_count)
                 repoDescription.text = item.description
+                setOnClickListener { listener.onSearchResultClick(item) }
             }
         }
 
         companion object {
             val LAYOUT_RES = R.layout.search_results_item
         }
+    }
 
+    interface OnSearchResultClickListener {
+        fun onSearchResultClick(model: RepoModel)
     }
 }

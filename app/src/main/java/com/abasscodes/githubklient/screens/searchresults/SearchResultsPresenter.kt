@@ -12,7 +12,7 @@ class SearchResultsPresenter @Inject constructor(
     SearchResultsContract.Presenter {
 
     override fun onQueryEntered(query: String) {
-
+        userSettings.storeQuery(query)
         val disposable = appRepository.searchRepo(query)
             .subscribe(
                 { response -> showResults(response) },
@@ -28,8 +28,13 @@ class SearchResultsPresenter @Inject constructor(
         }
     }
 
-    private fun showError(e: Any) {
+    override fun onSearchResultClicked(model: RepoModel) {
+        view?.navigateToDetail(model)
+    }
 
+
+    private fun showError(e: Any) {
+        view?.showError()
     }
 
 

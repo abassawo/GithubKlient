@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.base.BaseViewHolder
-import com.abasscodes.githubklient.screens.suggestions.RecommendedCompany
+import com.abasscodes.githubklient.models.RecommendedCompany
 import com.abasscodes.githubklient.utils.inflateView
+import com.abasscodes.githubklient.views.AdapterClickListener
 import kotlinx.android.synthetic.main.recommendation_view_row.view.*
 
 class RecommendationsAdapter(val listener: AdapterClickListener) :
@@ -20,8 +21,13 @@ class RecommendationsAdapter(val listener: AdapterClickListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommmendationViewHolder {
-        val view = inflateView(parent, RecommmendationViewHolder.layout)
-        return RecommmendationViewHolder(view, listener)
+        val view = inflateView(parent,
+            RecommmendationViewHolder.layout
+        )
+        return RecommmendationViewHolder(
+            view,
+            listener
+        )
     }
 
     override fun getItemCount(): Int = recommendations.size
@@ -42,7 +48,7 @@ class RecommendationsAdapter(val listener: AdapterClickListener) :
 
             with(itemView) {
                 companyName.text = recommendedCompany.githubName
-                setOnClickListener{ listener.onCompanyClicked(recommendedCompany) }
+                setOnClickListener{ listener.onCompanyClicked(recommendedCompany.githubName) }
             }
         }
 
@@ -51,8 +57,6 @@ class RecommendationsAdapter(val listener: AdapterClickListener) :
         }
     }
 
-    interface AdapterClickListener {
-        fun onCompanyClicked(recommendedCompany: RecommendedCompany)
-    }
+
 }
 

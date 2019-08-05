@@ -1,6 +1,7 @@
 package com.abasscodes.githubklient.screens.suggestions
 
 import com.abasscodes.githubklient.base.BasePresenter
+import com.abasscodes.githubklient.models.RecommendedCompany
 import com.abasscodes.githubklient.rest.AppRepository
 import com.abasscodes.githubklient.settings.UserSettings
 import javax.inject.Inject

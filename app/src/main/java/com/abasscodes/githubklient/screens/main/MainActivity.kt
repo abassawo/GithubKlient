@@ -10,9 +10,9 @@ import com.abasscodes.githubklient.base.BaseMvpActivity
 import com.abasscodes.githubklient.models.PageNames
 import com.abasscodes.githubklient.screens.searchresults.SearchResultsActivity
 import com.abasscodes.githubklient.screens.suggestions.RecommendationFragment
-import com.abasscodes.githubklient.screens.suggestions.RecommendedCompany
+import com.abasscodes.githubklient.models.RecommendedCompany
 import com.abasscodes.githubklient.utils.connectivity.ConnectivityUtil
-import com.abasscodes.githubklient.views.adapters.TabAdapter
+import com.abasscodes.githubklient.views.adapters.tabs.TabAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -51,8 +51,8 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
             .show()
     }
 
-    override fun onCompanyClicked(company: RecommendedCompany) {
-        startActivity(SearchResultsActivity.makeIntent(this, company.githubName))
+    override fun onCompanyClicked(companyName: String) {
+        startActivity(SearchResultsActivity.makeIntent(this, companyName))
     }
 
 
