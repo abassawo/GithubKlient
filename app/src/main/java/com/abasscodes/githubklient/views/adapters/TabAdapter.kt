@@ -1,4 +1,4 @@
-package com.abasscodes.githubklient.views
+package com.abasscodes.githubklient.views.adapters
 
 import android.content.Context
 import androidx.fragment.app.Fragment
@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.models.PageNames
 import com.abasscodes.githubklient.screens.history.HistoryFragment
-import com.abasscodes.githubklient.screens.search.SearchFragment
 import com.abasscodes.githubklient.screens.suggestions.RecommendationFragment
 
 class TabAdapter(context: Context, fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -17,8 +16,7 @@ class TabAdapter(context: Context, fragmentManager: FragmentManager) : FragmentS
     init {
         for (value in PageNames.values()) {
             when (value) {
-                PageNames.RecommendationPage ->  addFragment(RecommendationFragment.newInstance(), context.getString(R.string.suggested))
-                PageNames.SearchPage -> addFragment(SearchFragment(), context.getString(R.string.search))
+                PageNames.Search ->  addFragment(RecommendationFragment.newInstance(), context.getString(R.string.search))
                 PageNames.HistoryPage -> addFragment(HistoryFragment(), context.getString(R.string.history))
             }
         }

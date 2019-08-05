@@ -1,25 +1,23 @@
 package com.abasscodes.githubklient.screens.main
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
-import androidx.appcompat.widget.SearchView
 import androidx.viewpager.widget.ViewPager
 import com.abasscodes.githubklient.GitKlientApp
 import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.base.BaseMvpActivity
 import com.abasscodes.githubklient.models.PageNames
+import com.abasscodes.githubklient.screens.searchresults.SearchResultsActivity
 import com.abasscodes.githubklient.screens.suggestions.RecommendationFragment
+import com.abasscodes.githubklient.screens.suggestions.RecommendedCompany
 import com.abasscodes.githubklient.utils.connectivity.ConnectivityUtil
-import com.abasscodes.githubklient.utils.hideKeyboard
-import com.abasscodes.githubklient.views.TabAdapter
+import com.abasscodes.githubklient.views.adapters.TabAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_recommendation.*
 import javax.inject.Inject
 
-class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.View, RecommendationFragment.ClickableSearchListener {
+class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.View, RecommendationFragment.FragmentInteractionListener {
     @Inject
     lateinit var presenter: MainPresenter
 
@@ -36,7 +34,10 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
 
     private fun setupViewPage(viewPager: ViewPager) =
         with(viewPager) {
-            adapter = TabAdapter(this@MainActivity, supportFragmentManager)
+            adapter = TabAdapter(
+                this@MainActivity,
+                supportFragmentManager
+            )
             currentItem = 0
             tabs.setupWithViewPager(this)
         }
@@ -50,12 +51,13 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
             .show()
     }
 
-    override fun onSearchClicked() {
-        viewPager.currentItem = PageNames.SearchPage.ordinal
+    override fun onCompanyClicked(company: RecommendedCompany) {
+        startActivity(SearchResultsActivity.makeIntent(this, company.githubName))
     }
 
+
     override fun showContent(index: Int) {
-        viewPager.currentItem = PageNames.RecommendationPage.ordinal
+        viewPager.currentItem = PageNames.Search.ordinal
     }
 
     override fun isNetworkAvailable(): Boolean {

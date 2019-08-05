@@ -1,14 +1,23 @@
 package com.abasscodes.githubklient.utils
 
 import android.app.Activity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentActivity
-import com.abasscodes.githubklient.screens.main.MainActivity
+import androidx.recyclerview.widget.RecyclerView
+import com.abasscodes.githubklient.base.BaseViewHolder
 import com.abasscodes.githubklient.screens.suggestions.RecommendationFragment
+import com.abasscodes.githubklient.views.adapters.recommendations.RecommendationsAdapter
+import com.abasscodes.githubklient.views.adapters.searchresults.SearchResultsAdapter
 
+fun RecommendationsAdapter.inflateView(viewGroup: ViewGroup, @LayoutRes layoutRes: Int): View =
+    LayoutInflater.from(viewGroup.context).inflate(layoutRes, viewGroup, false)
+
+fun SearchResultsAdapter.inflateView(viewGroup: ViewGroup, @LayoutRes layoutRes: Int): View =
+    LayoutInflater.from(viewGroup.context).inflate(layoutRes, viewGroup, false)
 
 fun FragmentActivity.hideKeyboard() {
     val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager

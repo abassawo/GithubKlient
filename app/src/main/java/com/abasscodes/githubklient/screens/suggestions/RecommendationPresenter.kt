@@ -11,11 +11,18 @@ class RecommendationPresenter @Inject constructor(
 ) :
     BasePresenter<RecommendationContract.View>(settings, appRepository),
     RecommendationContract.Presenter {
-
-
-    override fun onSearchClicked() {
-        view?.navigateToSearch()
+    override fun onQueryEntered(text: String) {
+       view?.navigatToSearchResultsFor(text)
     }
 
+    override fun onViewBound() {
+        super.onViewBound()
+        view?.showRecommendations(suggestedCompanies)
+    }
+
+
+    companion object {
+        val suggestedCompanies = RecommendedCompany.values()
+    }
 
 }

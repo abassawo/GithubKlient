@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="item_view_body">16sp</dimen>
+    <dimen name="error_message_text">16sp</dimen>
+    <dimen name="card_view_margin_start">16dp</dimen>
+    <dimen name="card_view_margin_top">16dp</dimen>
+    <dimen name="card_view_margin_end">16dp</dimen>
+    <dimen name="card_view_height">120dp</dimen>
+    <dimen name="recycler_view_height">0dp</dimen>
+    <dimen name="card_view_elevation">4dp</dimen>
+    <dimen name="item_view_padding">8dp</dimen>
+    <dimen name="item_view_title">24sp</dimen>
+</resources>

@@ -1,20 +1,24 @@
 package com.abasscodes.githubklient.screens.suggestions
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.abasscodes.githubklient.GitKlientApp
 import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.base.BaseMvpFragment
-import com.abasscodes.githubklient.utils.hideKeyboard
+import com.abasscodes.githubklient.screens.searchresults.SearchResultsActivity
+import com.abasscodes.githubklient.views.adapters.recommendations.RecommendationsAdapter
 import kotlinx.android.synthetic.main.fragment_recommendation.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class RecommendationFragment : BaseMvpFragment<RecommendationContract.Presenter>(),
-    RecommendationContract.View {
+    RecommendationContract.View, RecommendationsAdapter.AdapterClickListener {
 
     @Inject
     lateinit var presenter: RecommendationPresenter
+    val adapter: RecommendationsAdapter = RecommendationsAdapter(this)
 
     override fun getLayoutResourceId(): Int = R.layout.fragment_recommendation
 
@@ -23,31 +27,48 @@ class RecommendationFragment : BaseMvpFragment<RecommendationContract.Presenter>
     override fun onViewCreated(savedInstanceState: Bundle?) {
         super.onViewCreated(savedInstanceState)
         setupSearchView(searchView)
+        setupRecyclerView(suggestionsRecyclerView)
         GitKlientApp.instance.appComponent?.inject(this)
         presenter.bindView(this)
     }
 
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
+        recyclerView.layoutManager = GridLayoutManager(activity, 2)
+        recyclerView.adapter = adapter
+    }
+
     private fun setupSearchView(searchView: SearchView) {
-        searchView.setOnClickListener { presenter.onSearchClicked() }
-        searchView.setOnQueryTextFocusChangeListener(object: View.OnFocusChangeListener {
-            override fun onFocusChange(v: View?, isFocused: Boolean) {
-                    presenter.onSearchClicked()
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                presenter.onQueryEntered(query)
+                searchView.onActionViewCollapsed()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                Timber.d("Query text submitted: $newText")
+                return false
             }
         })
     }
 
-    override fun showRecommendations() {
-
+    override fun showRecommendations(suggestedCompanies: Array<RecommendedCompany>) {
+        adapter.setData(suggestedCompanies.toList())
     }
 
-    override fun navigateToSearch() {
-        val activity = activity as? ClickableSearchListener
-        hideKeyboard()
-        activity?.onSearchClicked()
+    override fun navigatToSearchResultsFor(companyName: String) {
+        activity?.let { startActivity(SearchResultsActivity.makeIntent(it, companyName)) }
     }
 
-    interface ClickableSearchListener {
-        fun onSearchClicked()
+    override fun onCompanyClicked(recommendedCompany: RecommendedCompany) {
+        val activity = activity as? FragmentInteractionListener
+        activity?.onCompanyClicked(recommendedCompany)
+    }
+
+
+    interface FragmentInteractionListener {
+        fun onCompanyClicked(company: RecommendedCompany)
     }
 
     companion object {
