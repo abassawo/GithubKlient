@@ -19,10 +19,12 @@ class AppRepository @Inject constructor(
         )
     }
 
-    fun searchRepo(companyName: String): Single<List<RepoModel>> = restApi.searchRepo(companyName)
-        .map {
-            it.sortedByDescending { it.stargazers_count }.take(
-                SearchResultsPresenter.NUM_TOP_RATED_ITEMS
-            )
-        }.compose(subscribeOnIoObserveOnUi())
+    fun getOrderedRepos(companyName: String): Single<List<RepoModel>> = searchRepo(companyName).map {
+        it.sortedByDescending { it.stargazers_count }.take(
+            SearchResultsPresenter.NUM_TOP_RATED_ITEMS
+        )
+    }
+
+    private fun searchRepo(companyName: String): Single<List<RepoModel>> = restApi.searchRepo(companyName)
+      .compose(subscribeOnIoObserveOnUi())
 }
