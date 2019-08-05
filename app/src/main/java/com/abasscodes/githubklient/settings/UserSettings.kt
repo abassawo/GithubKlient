@@ -5,5 +5,5 @@ interface UserSettings {
 //    fun getQuerySet() : Set<String>?
 
     fun storeLastQuery(query: String)
-    fun getLastQuerySet() : String
+    fun getLastQuerySet() : List<String>
 }

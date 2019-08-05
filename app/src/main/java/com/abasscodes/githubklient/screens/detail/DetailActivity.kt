@@ -48,6 +48,14 @@ class DetailActivity : BaseMvpActivity<DetailContract.Presenter>(), DetailContra
         webview.setHorizontalScrollBarEnabled(false)
     }
 
+    override fun onBackPressed() {
+        if (webview.canGoBack()) {
+            webview.goBack()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun showWebView(url: String) = webview.loadUrl(url)
 
     companion object {

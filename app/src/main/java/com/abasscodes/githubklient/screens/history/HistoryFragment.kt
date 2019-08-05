@@ -26,15 +26,11 @@ class HistoryFragment : BaseMvpFragment<HistoryContract.Presenter>(), HistoryCon
         super.onViewCreated(savedInstanceState)
         setupRecyclerView(recyclerView)
         GitKlientApp.instance.appComponent?.inject(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
         presenter.bindView(this)
     }
 
     fun refresh() {
-        presenter.bindView(this)
+        presenter.onViewBound()
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -42,12 +38,11 @@ class HistoryFragment : BaseMvpFragment<HistoryContract.Presenter>(), HistoryCon
         recyclerView.adapter = adapter
     }
 
-    override fun showStoredQueries(query: String) =
-        adapter.setData(listOf(query))
+    override fun showStoredQueries(queries: Set<String>) =
+        adapter.setData(queries.toList())
 
     override fun onCompanyClicked(recommendedCompany: String) {
         val activity = activity as? RecommendationFragment.FragmentInteractionListener
         activity?.onCompanyClicked(recommendedCompany)
     }
-
 }
