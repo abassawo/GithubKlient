@@ -32,5 +32,4 @@ class MainPresenterTest : BasePresenterTest<MainPresenter>() {
         Mockito.verify(mockView).showNoInternetWarning()
         Mockito.verify(mockView, Mockito.never()).showContent(ArgumentMatchers.anyInt())
     }
-
 }

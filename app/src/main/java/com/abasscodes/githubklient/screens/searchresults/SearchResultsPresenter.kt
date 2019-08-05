@@ -22,28 +22,20 @@ class SearchResultsPresenter @Inject constructor(
     }
 
     private fun showResults(response: List<RepoModel>?) {
-        response?.let {
-            val subList = it.sortedByDescending { it.stargazers_count }.take(NUM_TOP_RATED_ITEMS)
-            view?.showResultsFragment(subList)
-        }
+        if (response.isNullOrEmpty()) {
+            view?.showError() // todo - set up sealed class
+        } else view?.showResultsFragment(response)
     }
 
     override fun onSearchResultClicked(model: RepoModel) {
         view?.navigateToDetail(model)
     }
 
-
     private fun showError(e: Any) {
         view?.showError()
-    }
-
-
-    override fun onViewBound() {
-        super.onViewBound()
     }
 
     companion object {
         val NUM_TOP_RATED_ITEMS = 3
     }
-
 }
