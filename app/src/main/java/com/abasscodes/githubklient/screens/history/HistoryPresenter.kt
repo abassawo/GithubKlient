@@ -12,6 +12,6 @@ class HistoryPresenter @Inject constructor(
     override fun onViewBound() {
         super.onViewBound()
         val storedQueries = userSettings.getLastQuerySet()
-        storedQueries?.let { view?.showStoredQueries(it) }
+        storedQueries?.let { view?.showStoredQueries(it.toSet()) }
     }
 }
