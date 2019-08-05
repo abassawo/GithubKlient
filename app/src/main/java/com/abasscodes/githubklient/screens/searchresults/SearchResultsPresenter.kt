@@ -12,7 +12,7 @@ class SearchResultsPresenter @Inject constructor(
     SearchResultsContract.Presenter {
 
     override fun onQueryEntered(query: String) {
-        userSettings.storeQuery(query)
+        userSettings.storeLastQuery(query)
         val disposable = appRepository.searchRepo(query)
             .subscribe(
                 { response -> showResults(response) },

@@ -14,7 +14,9 @@ import javax.inject.Inject
 
 class HistoryFragment : BaseMvpFragment<HistoryContract.Presenter>(), HistoryContract.View,
     AdapterClickListener {
-    @Inject lateinit var presenter: HistoryPresenter
+    @Inject
+    lateinit var presenter: HistoryPresenter
+
     override fun getLayoutResourceId(): Int = R.layout.fragment_history
     val adapter: HistoryAdapter = HistoryAdapter(this)
 
@@ -31,13 +33,17 @@ class HistoryFragment : BaseMvpFragment<HistoryContract.Presenter>(), HistoryCon
         presenter.bindView(this)
     }
 
+    fun refresh() {
+        presenter.bindView(this)
+    }
+
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
     }
 
-    override fun showStoredQueries(queries: Set<String>) =
-        adapter.setData(queries.toList())
+    override fun showStoredQueries(query: String) =
+        adapter.setData(listOf(query))
 
     override fun onCompanyClicked(recommendedCompany: String) {
         val activity = activity as? RecommendationFragment.FragmentInteractionListener

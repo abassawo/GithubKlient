@@ -17,9 +17,11 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.View, RecommendationFragment.FragmentInteractionListener {
+class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.View,
+    RecommendationFragment.FragmentInteractionListener {
     @Inject
     lateinit var presenter: MainPresenter
+    private lateinit var tabAdapter: TabAdapter
 
     override fun getPresenter(): MainContract.Presenter = presenter
 
@@ -27,6 +29,7 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
 
     override fun onViewCreated(savedInstanceState: Bundle?) {
         super.onViewCreated(savedInstanceState)
+        tabAdapter = TabAdapter(this, supportFragmentManager)
         GitKlientApp.instance.appComponent?.inject(this)
         setupViewPage(viewPager)
         presenter.bindView(this)
@@ -34,12 +37,25 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
 
     private fun setupViewPage(viewPager: ViewPager) =
         with(viewPager) {
-            adapter = TabAdapter(
-                this@MainActivity,
-                supportFragmentManager
-            )
+            adapter = tabAdapter
             currentItem = 0
             tabs.setupWithViewPager(this)
+
+            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+
+                override fun onPageScrollStateChanged(state: Int) {}
+
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                }
+
+                override fun onPageSelected(position: Int) {
+                    tabAdapter.refresh(position)
+                }
+            })
         }
 
 
