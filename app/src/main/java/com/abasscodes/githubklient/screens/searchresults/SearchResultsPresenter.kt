@@ -13,7 +13,7 @@ class SearchResultsPresenter @Inject constructor(
 
     override fun onQueryEntered(query: String) {
         userSettings.storeLastQuery(query)
-        val disposable = appRepository.searchRepo(query)
+        val disposable = appRepository.getOrderedRepos(query)
             .subscribe(
                 { response -> showResults(response) },
                 { e -> showError(e) })

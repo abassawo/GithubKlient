@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentActivity
-import com.abasscodes.githubklient.screens.suggestions.RecommendationFragment
+import com.abasscodes.githubklient.screens.suggestions.SearchAndSuggestionFragment
 import com.abasscodes.githubklient.views.adapters.history.HistoryAdapter
 import com.abasscodes.githubklient.views.adapters.recommendations.RecommendationsAdapter
 import com.abasscodes.githubklient.views.adapters.searchresults.SearchResultsAdapter
@@ -33,6 +33,6 @@ fun FragmentActivity.hideKeyboard() {
 }
 
 
-fun RecommendationFragment.hideKeyboard() {
+fun SearchAndSuggestionFragment.hideKeyboard() {
     activity?.hideKeyboard()
 }

@@ -56,7 +56,4 @@ class RecommendationsAdapter(val listener: AdapterClickListener) :
             val layout = R.layout.recommendation_view_row
         }
     }
-
-
 }
-

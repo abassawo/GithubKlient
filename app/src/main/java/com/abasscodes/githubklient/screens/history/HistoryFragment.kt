@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.abasscodes.githubklient.GitKlientApp
 import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.base.BaseMvpFragment
-import com.abasscodes.githubklient.screens.suggestions.RecommendationFragment
 import com.abasscodes.githubklient.views.AdapterClickListener
+import com.abasscodes.githubklient.views.FragmentInteractionListener
 import com.abasscodes.githubklient.views.adapters.history.HistoryAdapter
 import kotlinx.android.synthetic.main.fragment_history.*
 import javax.inject.Inject
 
 class HistoryFragment : BaseMvpFragment<HistoryContract.Presenter>(), HistoryContract.View,
-    AdapterClickListener {
+    AdapterClickListener{
     @Inject
     lateinit var presenter: HistoryPresenter
 
@@ -42,7 +42,7 @@ class HistoryFragment : BaseMvpFragment<HistoryContract.Presenter>(), HistoryCon
         adapter.setData(queries.toList())
 
     override fun onCompanyClicked(recommendedCompany: String) {
-        val activity = activity as? RecommendationFragment.FragmentInteractionListener
+        val activity = activity as? FragmentInteractionListener
         activity?.onCompanyClicked(recommendedCompany)
     }
 }

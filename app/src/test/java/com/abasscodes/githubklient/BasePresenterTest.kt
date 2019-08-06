@@ -6,6 +6,7 @@ import com.abasscodes.githubklient.rest.RestApi
 import com.abasscodes.githubklient.settings.UserSettings
 import com.abasscodes.githubklient.testutil.TestSchedulerProvider
 import io.reactivex.Single
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,7 +33,8 @@ open class BasePresenterTest<P : BasePresenter<*>> {
     @Test
     fun testAppRepository() {
         Mockito.`when`(mockRestApi.searchRepo("nytimes")).thenReturn(Single.just(listOf()))
-        val testObserver = appRepository.searchRepo("nytimes").test()
+        val testObserver = appRepository.getOrderedRepos("nytimes").test()
         testObserver.assertNoErrors()
     }
+
 }
