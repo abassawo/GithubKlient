@@ -8,6 +8,6 @@ interface HistoryContract {
     }
 
     interface Presenter : BaseContract.Presenter<View> {
-
+        fun onHistoryItemDeleted(position: Int)
     }
 }

@@ -34,4 +34,13 @@ class HistoryPresenterTest : BasePresenterTest<HistoryPresenter>() {
         presenter.bindView(mockView)
         verify(mockView, never()).showStoredQueries(emptyList.toSet())
     }
+
+    @Test
+    fun `swipe to delete triggers view to show latest`() {
+        presenter.bindView(mockView)
+        whenever(mockSettings.getLastQuerySet()).thenReturn(listOf("Test1", "Test2"))
+        presenter.onHistoryItemDeleted(0)
+        verify(mockSettings).updateSearchHistory(listOf("Test2"))
+        verify(mockView).showStoredQueries(setOf("Test2"))
+    }
 }

@@ -9,6 +9,8 @@ class HistoryPresenter @Inject constructor(
     settings: UserSettings, appRepository: AppRepository
 ) : BasePresenter<HistoryContract.View>(settings, appRepository), HistoryContract.Presenter {
 
+    private var data: MutableList<String>? = null
+
     override fun onViewBound() {
         super.onViewBound()
         val storedQueries = userSettings.getLastQuerySet()
@@ -16,6 +18,17 @@ class HistoryPresenter @Inject constructor(
 //            view?.showError()  //show empty content state
             return
         }
-        storedQueries.let { view?.showStoredQueries(it.toSet()) }
+        storedQueries.let {
+            this.data = it.toMutableList()
+            view?.showStoredQueries(it.toSet())
+        }
+    }
+
+    override fun onHistoryItemDeleted(position: Int) {
+        data?.let {
+            it.removeAt(position)
+            view?.showStoredQueries(it.toSet())
+            userSettings.updateSearchHistory(it)
+        }
     }
 }
