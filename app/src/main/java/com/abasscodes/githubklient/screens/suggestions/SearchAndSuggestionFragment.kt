@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.abasscodes.githubklient.GitKlientApp
 import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.base.BaseMvpFragment
 import com.abasscodes.githubklient.models.RecommendedCompany
@@ -28,6 +29,7 @@ class SearchAndSuggestionFragment : BaseMvpFragment<SearchAndSuggestionContract.
 
     override fun onViewCreated(savedInstanceState: Bundle?) {
         super.onViewCreated(savedInstanceState)
+        GitKlientApp.instance.appComponent?.inject(this)
         setupSearchView(searchView)
         setupRecyclerView(suggestionsRecyclerView)
         presenter.bindView(this)

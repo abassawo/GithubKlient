@@ -15,10 +15,26 @@ open class UserSettingsManager(context: Context) : UserSettings {
         }
     }
 
+    override fun updateSearchHistory(historyItems: List<String>) {
+        val searchHistoryText = StringBuilder()
+        for((index, item) in historyItems.withIndex()) {
+            if(index == historyItems.size - 1) {
+                searchHistoryText.append(historyItems[index])
+            } else {
+                searchHistoryText.append(historyItems[index] + ",")
+            }
+        }
+        preferences.edit().putString(QUERY_SET, searchHistoryText.toString()).apply()
+    }
+
     override fun getLastQuerySet(): List<String> {
         val queries = preferences.getString(QUERY_SET, null)
         if(queries != null) {
-            return queries.split(",").toList()
+            val history = queries.split(",").toMutableSet()
+            if(history.contains("")){
+                history.remove("")
+            }
+            return history.toList()
         }
         return emptyList()
     }
