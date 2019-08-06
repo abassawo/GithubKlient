@@ -12,6 +12,10 @@ class HistoryPresenter @Inject constructor(
     override fun onViewBound() {
         super.onViewBound()
         val storedQueries = userSettings.getLastQuerySet()
-        storedQueries?.let { view?.showStoredQueries(it.toSet()) }
+        storedQueries.ifEmpty {
+//            view?.showError()  //show empty content state
+            return
+        }
+        storedQueries.let { view?.showStoredQueries(it.toSet()) }
     }
 }

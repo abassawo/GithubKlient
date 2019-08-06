@@ -4,34 +4,32 @@ import android.os.Bundle
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.abasscodes.githubklient.GitKlientApp
 import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.base.BaseMvpFragment
 import com.abasscodes.githubklient.models.RecommendedCompany
 import com.abasscodes.githubklient.screens.searchresults.SearchResultsActivity
 import com.abasscodes.githubklient.views.AdapterClickListener
+import com.abasscodes.githubklient.views.FragmentInteractionListener
 import com.abasscodes.githubklient.views.adapters.recommendations.RecommendationsAdapter
 import kotlinx.android.synthetic.main.fragment_recommendation.*
-import timber.log.Timber
 import javax.inject.Inject
 
-class RecommendationFragment : BaseMvpFragment<RecommendationContract.Presenter>(),
-    RecommendationContract.View, AdapterClickListener {
+class SearchAndSuggestionFragment : BaseMvpFragment<SearchAndSuggestionContract.Presenter>(),
+    SearchAndSuggestionContract.View, AdapterClickListener {
 
     @Inject
-    lateinit var presenter: RecommendationPresenter
+    lateinit var presenter: SearchAndSuggestionPresenter
     val adapter: RecommendationsAdapter =
         RecommendationsAdapter(this)
 
     override fun getLayoutResourceId(): Int = R.layout.fragment_recommendation
 
-    override fun getPresenter(): RecommendationContract.Presenter = presenter
+    override fun getPresenter(): SearchAndSuggestionContract.Presenter = presenter
 
     override fun onViewCreated(savedInstanceState: Bundle?) {
         super.onViewCreated(savedInstanceState)
         setupSearchView(searchView)
         setupRecyclerView(suggestionsRecyclerView)
-        GitKlientApp.instance.appComponent?.inject(this)
         presenter.bindView(this)
     }
 
@@ -50,7 +48,6 @@ class RecommendationFragment : BaseMvpFragment<RecommendationContract.Presenter>
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                Timber.d("Query text submitted: $newText")
                 return false
             }
         })
@@ -70,13 +67,11 @@ class RecommendationFragment : BaseMvpFragment<RecommendationContract.Presenter>
     }
 
 
-    interface FragmentInteractionListener {
-        fun onCompanyClicked(company: String)
-    }
+
 
     companion object {
-        fun newInstance(): RecommendationFragment {
-            val fragment = RecommendationFragment()
+        fun newInstance(): SearchAndSuggestionFragment {
+            val fragment = SearchAndSuggestionFragment()
             return fragment
         }
     }

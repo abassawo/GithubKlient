@@ -9,16 +9,15 @@ import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.base.BaseMvpActivity
 import com.abasscodes.githubklient.models.PageNames
 import com.abasscodes.githubklient.screens.searchresults.SearchResultsActivity
-import com.abasscodes.githubklient.screens.suggestions.RecommendationFragment
-import com.abasscodes.githubklient.models.RecommendedCompany
 import com.abasscodes.githubklient.utils.connectivity.ConnectivityUtil
+import com.abasscodes.githubklient.views.FragmentInteractionListener
 import com.abasscodes.githubklient.views.adapters.tabs.TabAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.View,
-    RecommendationFragment.FragmentInteractionListener {
+    FragmentInteractionListener {
     @Inject
     lateinit var presenter: MainPresenter
     private lateinit var tabAdapter: TabAdapter
