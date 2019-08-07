@@ -1,4 +1,4 @@
-# Bitcoin Tracker
+# GithubKlient
 
 1. [Overview](#overview)
 1. [Cloning the Project](#cloning-the-project)
