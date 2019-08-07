@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.base.BaseViewHolder
+import com.abasscodes.githubklient.base.inflateView
 import com.abasscodes.githubklient.models.RepoModel
-import com.abasscodes.githubklient.utils.inflateView
 import com.abasscodes.githubklient.views.adapters.searchresults.SearchResultsAdapter.SearchResultsViewHolder.Companion.LAYOUT_RES
 import kotlinx.android.synthetic.main.search_results_item.view.*
 
-class SearchResultsAdapter(val listener: OnSearchResultClickListener) : RecyclerView.Adapter<BaseViewHolder<RepoModel>>() {
-    var repoModels: List<RepoModel> = mutableListOf()
+class SearchResultsAdapter(private val listener: OnSearchResultClickListener) : RecyclerView.Adapter<BaseViewHolder<RepoModel>>() {
+    private var repoModels: List<RepoModel> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultsViewHolder {
         val view = inflateView(parent, LAYOUT_RES)
@@ -29,7 +29,7 @@ class SearchResultsAdapter(val listener: OnSearchResultClickListener) : Recycler
 
     override fun getItemCount(): Int = repoModels.size
 
-    class SearchResultsViewHolder(view: View, val listener: OnSearchResultClickListener) : BaseViewHolder<RepoModel>(view) {
+    class SearchResultsViewHolder(view: View, private val listener: OnSearchResultClickListener) : BaseViewHolder<RepoModel>(view) {
 
         override fun bind(item: RepoModel) {
             with(itemView) {
@@ -41,7 +41,7 @@ class SearchResultsAdapter(val listener: OnSearchResultClickListener) : Recycler
         }
 
         companion object {
-            val LAYOUT_RES = R.layout.search_results_item
+            const val LAYOUT_RES = R.layout.search_results_item
         }
     }
 

@@ -16,8 +16,8 @@ abstract class BaseMvpActivity<P : BaseContract.Presenter<*>> : AppCompatActivit
         presenter = getPresenter()
     }
 
-    override fun showError() {
-
+    override fun showLoadingIndicator(isLoading: Boolean) {
+        // default no-op
     }
 
     /**

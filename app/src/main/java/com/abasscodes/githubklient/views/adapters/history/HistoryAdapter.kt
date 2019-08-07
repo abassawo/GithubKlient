@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.base.BaseViewHolder
-import com.abasscodes.githubklient.utils.inflateView
+import com.abasscodes.githubklient.base.inflateView
 import com.abasscodes.githubklient.views.AdapterClickListener
 import com.abasscodes.githubklient.views.adapters.history.HistoryAdapter.HistoryViewHolder.Companion.LAYOUT_RES
 import kotlinx.android.synthetic.main.recommendation_view_row.view.*
 
-class HistoryAdapter(val listener: AdapterClickListener) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+class HistoryAdapter(private val listener: AdapterClickListener) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     private var items: List<String> = mutableListOf()
 
@@ -28,8 +28,7 @@ class HistoryAdapter(val listener: AdapterClickListener) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) = holder.bind(items[position])
 
-
-    class HistoryViewHolder(view: View, val listener: AdapterClickListener) : BaseViewHolder<String>(view) {
+    class HistoryViewHolder(view: View, private val listener: AdapterClickListener) : BaseViewHolder<String>(view) {
 
         override fun bind(item: String) {
             itemView.companyName.text = item
@@ -37,7 +36,7 @@ class HistoryAdapter(val listener: AdapterClickListener) : RecyclerView.Adapter<
         }
 
         companion object {
-            val LAYOUT_RES = R.layout.recommendation_view_row
+           const val LAYOUT_RES = R.layout.recommendation_view_row
         }
     }
 

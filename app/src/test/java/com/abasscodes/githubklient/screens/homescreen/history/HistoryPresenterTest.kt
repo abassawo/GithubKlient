@@ -1,15 +1,12 @@
-package com.abasscodes.githubklient.screens.history
+package com.abasscodes.githubklient.screens.homescreen.history
 
-import androidx.lifecycle.ViewModel
 import com.abasscodes.githubklient.BasePresenterTest
-import com.abasscodes.githubklient.models.RepoModel
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers
 import org.mockito.Mock
-import org.mockito.Mockito.never
+import org.mockito.Mockito.*
 import org.mockito.Mockito.`when` as whenever
-import org.mockito.Mockito.verify
 
 class HistoryPresenterTest : BasePresenterTest<HistoryPresenter>() {
     @Mock lateinit var mockView: HistoryContract.View
@@ -22,23 +19,24 @@ class HistoryPresenterTest : BasePresenterTest<HistoryPresenter>() {
 
     @Test
     fun `ensure presence of valid persisted search terms triggers view to show search history `() {
-        whenever(mockSettings.getLastQuerySet()).thenReturn(listOf("nytimes", "spotify"))
+        whenever(mockSettings.lastQuerySet()).thenReturn(listOf("nytimes", "spotify"))
         presenter.bindView(mockView)
         verify(mockView).showStoredQueries(setOf("nytimes", "spotify"))
     }
 
     @Test
-    fun `ensure empty search terms list triggers view to show no history`() {
-        val emptyList = emptyList<String>()
-        whenever(mockSettings.getLastQuerySet()).thenReturn(emptyList)
+    fun `ensure empty content triggers view to show empty content text `() {
+        whenever(mockSettings.lastQuerySet()).thenReturn(emptyList())
         presenter.bindView(mockView)
-        verify(mockView, never()).showStoredQueries(emptyList.toSet())
+        verify(mockView, never()).showStoredQueries(ArgumentMatchers.anySet())
+        verify(mockView).showEmptyContentMessage(true)
+        verify(mockView).showEmptyContentMessage(true)
     }
 
     @Test
     fun `swipe to delete triggers view to show latest`() {
+        whenever(mockSettings.lastQuerySet()).thenReturn(listOf("Test1", "Test2"))
         presenter.bindView(mockView)
-        whenever(mockSettings.getLastQuerySet()).thenReturn(listOf("Test1", "Test2"))
         presenter.onHistoryItemDeleted(0)
         verify(mockSettings).updateSearchHistory(listOf("Test2"))
         verify(mockView).showStoredQueries(setOf("Test2"))

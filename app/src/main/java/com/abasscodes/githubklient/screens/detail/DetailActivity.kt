@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.abasscodes.githubklient.GitKlientApp
 import com.abasscodes.githubklient.R
@@ -13,7 +16,8 @@ import kotlinx.android.synthetic.main.activity_details.*
 import javax.inject.Inject
 
 class DetailActivity : BaseMvpActivity<DetailContract.Presenter>(), DetailContract.View {
-    @Inject lateinit var presenter: DetailPresenter
+    @Inject
+    lateinit var presenter: DetailPresenter
 
     override fun getPresenter(): DetailContract.Presenter = presenter
 
@@ -33,20 +37,35 @@ class DetailActivity : BaseMvpActivity<DetailContract.Presenter>(), DetailContra
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> onBackPressed()
         }
         return true
     }
 
     private fun setupWebView() {
-        webview.setWebViewClient(WebViewClient())
-        webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(false)
-        webview.getSettings().setSupportMultipleWindows(false)
-        webview.getSettings().setSupportZoom(false)
-        webview.setVerticalScrollBarEnabled(false)
-        webview.setHorizontalScrollBarEnabled(false)
+        webview.webViewClient = WebViewClient()
+        webview.settings.javaScriptCanOpenWindowsAutomatically = false
+        webview.settings.setSupportMultipleWindows(false)
+        webview.settings.setSupportZoom(false)
+        webview.isVerticalScrollBarEnabled = false
+        webview.isHorizontalScrollBarEnabled = false
+        webview.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
+                super.onProgressChanged(view, newProgress)
+                progressBar.progress = newProgress
+                showLoadingIndicator(newProgress < 50)
+            }
+        }
     }
+
+    override fun showLoadingIndicator(isLoading: Boolean) =
+        if (isLoading) {
+            progressBar.visibility = View.VISIBLE
+        } else {
+            progressBar.visibility = View.GONE
+        }
+
 
     override fun onBackPressed() {
         if (webview.canGoBack()) {
@@ -60,10 +79,10 @@ class DetailActivity : BaseMvpActivity<DetailContract.Presenter>(), DetailContra
 
     companion object {
 
-        private val KEY_EXTRA_URL = "key_extra"
+        private const val KEY_EXTRA_URL = "key_extra"
 
-        fun makeIntent(context: Context, repoModel: RepoModel) = Intent(context, DetailActivity::class.java)
-            .putExtra(KEY_EXTRA_URL, repoModel.html_url)
+        fun makeIntent(context: Context, repoModel: RepoModel): Intent =
+            Intent(context, DetailActivity::class.java)
+                .putExtra(KEY_EXTRA_URL, repoModel.html_url)
     }
-
 }

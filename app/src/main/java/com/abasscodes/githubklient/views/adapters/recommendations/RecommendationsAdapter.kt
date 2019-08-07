@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.base.BaseViewHolder
+import com.abasscodes.githubklient.base.inflateView
 import com.abasscodes.githubklient.models.RecommendedCompany
-import com.abasscodes.githubklient.utils.inflateView
 import com.abasscodes.githubklient.views.AdapterClickListener
 import kotlinx.android.synthetic.main.recommendation_view_row.view.*
 
-class RecommendationsAdapter(val listener: AdapterClickListener) :
+class RecommendationsAdapter(private val listener: AdapterClickListener) :
     RecyclerView.Adapter<RecommendationsAdapter.RecommmendationViewHolder>() {
 
-    var recommendations: List<RecommendedCompany> = mutableListOf()
+    private var recommendations: List<RecommendedCompany> = mutableListOf()
 
     fun setData(recommendations: List<RecommendedCompany>) {
         this.recommendations = recommendations
@@ -21,7 +21,8 @@ class RecommendationsAdapter(val listener: AdapterClickListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommmendationViewHolder {
-        val view = inflateView(parent,
+        val view = inflateView(
+            parent,
             RecommmendationViewHolder.layout
         )
         return RecommmendationViewHolder(
@@ -38,13 +39,13 @@ class RecommendationsAdapter(val listener: AdapterClickListener) :
 
     class RecommmendationViewHolder(
         view: View,
-        val listener: AdapterClickListener
+        private val listener: AdapterClickListener
     ) : BaseViewHolder<RecommendedCompany>(view) {
 
-        lateinit var recommendedCompany: RecommendedCompany
+        private lateinit var recommendedCompany: RecommendedCompany
 
-        override fun bind(recommendedCompany: RecommendedCompany) {
-            this.recommendedCompany = recommendedCompany
+        override fun bind(item: RecommendedCompany) {
+            this.recommendedCompany = item
 
             with(itemView) {
                 companyName.text = recommendedCompany.githubName
@@ -53,7 +54,7 @@ class RecommendationsAdapter(val listener: AdapterClickListener) :
         }
 
         companion object {
-            val layout = R.layout.recommendation_view_row
+            const val layout = R.layout.recommendation_view_row
         }
     }
 }

@@ -8,6 +8,8 @@ interface SearchResultsContract {
     interface View : BaseContract.View {
         fun showResultsFragment(repoModels: List<RepoModel>)
         fun navigateToDetail(model: RepoModel)
+        fun showEmptyContentState(visible: Boolean, query: String)
+        fun showNoConnectionWarning()
     }
 
     interface Presenter : BaseContract.Presenter<View> {

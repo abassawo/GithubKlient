@@ -6,7 +6,6 @@ import com.abasscodes.githubklient.rest.RestApi
 import com.abasscodes.githubklient.settings.UserSettings
 import com.abasscodes.githubklient.testutil.TestSchedulerProvider
 import io.reactivex.Single
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
