@@ -2,8 +2,6 @@ package com.abasscodes.githubklient.screens.homescreen.suggestions
 
 import com.abasscodes.githubklient.BasePresenterTest
 import com.abasscodes.githubklient.models.RecommendedCompany
-import com.abasscodes.githubklient.screens.homescreen.suggestions.SearchAndSuggestionContract
-import com.abasscodes.githubklient.screens.homescreen.suggestions.SearchAndSuggestionPresenter
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
