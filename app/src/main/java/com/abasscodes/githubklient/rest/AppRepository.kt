@@ -20,7 +20,7 @@ class AppRepository @Inject constructor(
     }
 
     fun getOrderedRepos(companyName: String): Single<List<RepoModel>> = searchRepo(companyName).map {
-        it.sortedByDescending { it.stargazers_count }.take(
+        it.sortedByDescending { model -> model.stargazers_count }.take(
             SearchResultsPresenter.NUM_TOP_RATED_ITEMS
         )
     }

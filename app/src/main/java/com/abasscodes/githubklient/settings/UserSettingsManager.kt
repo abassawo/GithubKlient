@@ -11,13 +11,13 @@ open class UserSettingsManager(context: Context) : UserSettings {
         if(prevValue == null) {
             preferences.edit().putString(QUERY_SET, query).apply()
         } else {
-            preferences.edit().putString(QUERY_SET, prevValue + "," + query).apply()
+            preferences.edit().putString(QUERY_SET, "$prevValue,$query").apply()
         }
     }
 
     override fun updateSearchHistory(historyItems: List<String>) {
         val searchHistoryText = StringBuilder()
-        for((index, item) in historyItems.withIndex()) {
+        for((index, _) in historyItems.withIndex()) {
             if(index == historyItems.size - 1) {
                 searchHistoryText.append(historyItems[index])
             } else {
@@ -27,7 +27,7 @@ open class UserSettingsManager(context: Context) : UserSettings {
         preferences.edit().putString(QUERY_SET, searchHistoryText.toString()).apply()
     }
 
-    override fun getLastQuerySet(): List<String> {
+    override fun lastQuerySet(): List<String> {
         val queries = preferences.getString(QUERY_SET, null)
         if(queries != null) {
             val history = queries.split(",").toMutableSet()
@@ -43,6 +43,6 @@ open class UserSettingsManager(context: Context) : UserSettings {
         PreferenceManager.getDefaultSharedPreferences(context)
 
     companion object {
-        val QUERY_SET = "query_set"
+        const val QUERY_SET = "query_set"
     }
 }

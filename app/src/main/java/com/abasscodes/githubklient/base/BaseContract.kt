@@ -3,7 +3,7 @@ package com.abasscodes.githubklient.base
 interface BaseContract {
 
     interface View {
-        fun showError()
+        fun showLoadingIndicator(isLoading: Boolean)
     }
 
     interface Presenter<V : View> {

@@ -26,8 +26,8 @@ abstract class BaseMvpFragment<P : BaseContract.Presenter<*>> : Fragment(), Base
         presenter = getPresenter()
     }
 
-    override fun showError() {
-
+    override fun showLoadingIndicator(isLoading: Boolean) {
+        // default - no-op
     }
 
     /**

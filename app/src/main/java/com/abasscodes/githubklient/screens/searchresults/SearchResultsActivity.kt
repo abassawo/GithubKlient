@@ -3,7 +3,9 @@ package com.abasscodes.githubklient.screens.searchresults
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.MenuItem
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.abasscodes.githubklient.GitKlientApp
@@ -12,6 +14,7 @@ import com.abasscodes.githubklient.base.BaseMvpActivity
 import com.abasscodes.githubklient.models.RepoModel
 import com.abasscodes.githubklient.screens.detail.DetailActivity
 import com.abasscodes.githubklient.views.adapters.searchresults.SearchResultsAdapter
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_search_results.*
 import javax.inject.Inject
 
@@ -37,7 +40,7 @@ class SearchResultsActivity : BaseMvpActivity<SearchResultsContract.Presenter>()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> onBackPressed()
         }
         return true
@@ -47,20 +50,36 @@ class SearchResultsActivity : BaseMvpActivity<SearchResultsContract.Presenter>()
         presenter.onSearchResultClicked(model)
     }
 
-    override fun navigateToDetail(model: RepoModel) = startActivity(DetailActivity.makeIntent(this, model))
+    override fun showResultsFragment(repoModels: List<RepoModel>) = adapter.setData(repoModels)
+
+    override fun showEmptyContentState(visible: Boolean, query: String) {
+        noResultTextView.text = getString(R.string.no_search_results, query)
+        noResultTextView.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    override fun showLoadingIndicator(isLoading: Boolean) {
+        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    override fun showNoConnectionWarning() =
+        Snackbar.make(recyclerView, R.string.no_connection_available, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.check_internet_settings) {
+                startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+            }
+            .show()
 
 
+    override fun navigateToDetail(model: RepoModel) =
+        startActivity(DetailActivity.makeIntent(this, model))
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
     }
 
-    override fun showResultsFragment(repoModels: List<RepoModel>) = adapter.setData(repoModels)
-
     companion object {
 
-        private val QUERY_KEY: String = "arg_query_key"
+        private const val QUERY_KEY: String = "arg_query_key"
 
         fun makeIntent(context: Context, query: String): Intent {
             return Intent(context, SearchResultsActivity::class.java).putExtra(QUERY_KEY, query)

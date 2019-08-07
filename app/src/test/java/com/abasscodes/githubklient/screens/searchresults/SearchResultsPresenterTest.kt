@@ -2,23 +2,24 @@ package com.abasscodes.githubklient.screens.searchresults
 
 import com.abasscodes.githubklient.BasePresenterTest
 import com.abasscodes.githubklient.models.RepoModel
+import com.abasscodes.githubklient.utils.connectivity.NoConnectivityException
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.never
-import org.mockito.Mockito.`when` as whenever
 import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when` as whenever
 
 class SearchResultsPresenterTest : BasePresenterTest<SearchResultsPresenter>() {
     @Mock
     lateinit var mockView: SearchResultsContract.View
 
-    val mockModels: List<RepoModel> = initModels(100, 200, 300, 400, 500)
+    private val mockModels: List<RepoModel> = initModels(100, 200, 300, 400, 500)
 
     private fun initModels(vararg stars: Int): List<RepoModel> {
         val models = mutableListOf<RepoModel>()
-        for(star in stars){
+        for (star in stars) {
             models.add(RepoModel("test ", star, "", ""))
         }
         return models
@@ -31,6 +32,13 @@ class SearchResultsPresenterTest : BasePresenterTest<SearchResultsPresenter>() {
         presenter.bindView(mockView)
     }
 
+    @Test
+    fun `test error due to network connection triggers view to show network warning`() {
+        whenever(mockRestApi.searchRepo("nytimes")).thenReturn(Single.error(NoConnectivityException()))
+        presenter.onQueryEntered("nytimes")
+        testSchedulerProvider.testScheduler.triggerActions()
+        verify(mockView).showNoConnectionWarning()
+    }
 
     @Test
     fun `test error in api triggers view to show error`() {
@@ -38,7 +46,7 @@ class SearchResultsPresenterTest : BasePresenterTest<SearchResultsPresenter>() {
         presenter.onQueryEntered("nytimes")
         testSchedulerProvider.testScheduler.triggerActions()
         verify(mockView, never()).showResultsFragment(mockModels.takeLast(3).asReversed())
-        verify(mockView).showError()
+        verify(mockView).showEmptyContentState(true, "nytimes")
     }
 
     @Test
@@ -47,11 +55,11 @@ class SearchResultsPresenterTest : BasePresenterTest<SearchResultsPresenter>() {
         presenter.onQueryEntered("nytimes")
         testSchedulerProvider.testScheduler.triggerActions()
         verify(mockView, never()).showResultsFragment(mockModels.takeLast(3).asReversed())
-        verify(mockView).showError()
+        verify(mockView).showEmptyContentState(true, "nytimes")
     }
 
     @Test
-    fun `test correct results are shwon when api call is successful1`() {
+    fun `test correct results are shown when api call is successful1`() {
         whenever(mockRestApi.searchRepo("nytimes")).thenReturn(Single.just(mockModels))
         presenter.onQueryEntered("nytimes")
         testSchedulerProvider.testScheduler.triggerActions()

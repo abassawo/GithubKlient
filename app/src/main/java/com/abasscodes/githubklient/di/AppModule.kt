@@ -4,6 +4,7 @@ import android.content.Context
 import com.abasscodes.githubklient.BuildConfig
 import com.abasscodes.githubklient.GitKlientApp
 import com.abasscodes.githubklient.rest.AppRepository
+import com.abasscodes.githubklient.utils.connectivity.ConnectivityInterceptor
 import com.abasscodes.githubklient.rest.RestApi
 import com.abasscodes.githubklient.settings.UserSettings
 import com.abasscodes.githubklient.settings.UserSettingsManager
@@ -30,12 +31,13 @@ class AppModule(private val application: GitKlientApp) {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(connectivityInterceptor: ConnectivityInterceptor): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level =
             if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(connectivityInterceptor)
             .build()
     }
 
@@ -53,6 +55,9 @@ class AppModule(private val application: GitKlientApp) {
     @Singleton
     fun provideRestApi(retrofit: Retrofit): RestApi = retrofit.create(RestApi::class.java)
 
+
+    @Provides
+    fun provideConnectivityInterceptor() = ConnectivityInterceptor()
 
     @Provides
     @Singleton

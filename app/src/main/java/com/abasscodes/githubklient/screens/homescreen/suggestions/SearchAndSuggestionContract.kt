@@ -1,4 +1,4 @@
-package com.abasscodes.githubklient.screens.suggestions
+package com.abasscodes.githubklient.screens.homescreen.suggestions
 
 import com.abasscodes.githubklient.base.BaseContract
 import com.abasscodes.githubklient.models.RecommendedCompany

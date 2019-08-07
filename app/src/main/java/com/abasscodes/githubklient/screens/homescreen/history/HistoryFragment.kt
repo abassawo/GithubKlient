@@ -1,26 +1,26 @@
-package com.abasscodes.githubklient.screens.history
+package com.abasscodes.githubklient.screens.homescreen.history
 
 import android.os.Bundle
+import android.view.View
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.abasscodes.githubklient.GitKlientApp
+import com.abasscodes.githubklient.R
 import com.abasscodes.githubklient.base.BaseMvpFragment
 import com.abasscodes.githubklient.views.AdapterClickListener
 import com.abasscodes.githubklient.views.FragmentInteractionListener
 import com.abasscodes.githubklient.views.adapters.history.HistoryAdapter
 import kotlinx.android.synthetic.main.fragment_history.*
 import javax.inject.Inject
-import androidx.recyclerview.widget.ItemTouchHelper
-import com.abasscodes.githubklient.R
-
 
 class HistoryFragment : BaseMvpFragment<HistoryContract.Presenter>(), HistoryContract.View,
-    AdapterClickListener{
+    AdapterClickListener {
     @Inject
     lateinit var presenter: HistoryPresenter
 
     override fun getLayoutResourceId(): Int = R.layout.fragment_history
-    val adapter: HistoryAdapter = HistoryAdapter(this)
+    private val adapter: HistoryAdapter = HistoryAdapter(this)
 
     override fun getPresenter(): HistoryContract.Presenter = presenter
 
@@ -45,25 +45,36 @@ class HistoryFragment : BaseMvpFragment<HistoryContract.Presenter>(), HistoryCon
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return false
-                }
+                ): Boolean = false
 
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    if (direction == ItemTouchHelper.END) {
-                       presenter.onHistoryItemDeleted(viewHolder.adapterPosition)
-                    }
-                }
+
+                override fun getMovementFlags(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ): Int = ItemTouchHelper.Callback.makeMovementFlags(0, ItemTouchHelper.START)
+
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) =
+                    presenter.onHistoryItemDeleted(viewHolder.adapterPosition)
+
             }
         )
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
+    override fun showLoadingIndicator(isLoading: Boolean) {
+        progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
+    }
+
+    override fun showEmptyContentMessage(visible: Boolean) {
+        noHistoryTextView.visibility = if(visible) View.VISIBLE else View.GONE
+    }
+
     override fun showStoredQueries(queries: Set<String>) =
         adapter.setData(queries.toList())
 
-    override fun onCompanyClicked(recommendedCompany: String) {
+    override fun onCompanyClicked(company: String) {
         val activity = activity as? FragmentInteractionListener
-        activity?.onCompanyClicked(recommendedCompany)
+        activity?.onCompanyClicked(company)
     }
 }

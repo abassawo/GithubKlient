@@ -1,4 +1,4 @@
-package com.abasscodes.githubklient.screens.suggestions
+package com.abasscodes.githubklient.screens.homescreen.suggestions
 
 import android.os.Bundle
 import androidx.appcompat.widget.SearchView
@@ -20,7 +20,7 @@ class SearchAndSuggestionFragment : BaseMvpFragment<SearchAndSuggestionContract.
 
     @Inject
     lateinit var presenter: SearchAndSuggestionPresenter
-    val adapter: RecommendationsAdapter =
+    private val adapter: RecommendationsAdapter =
         RecommendationsAdapter(this)
 
     override fun getLayoutResourceId(): Int = R.layout.fragment_recommendation
@@ -63,19 +63,15 @@ class SearchAndSuggestionFragment : BaseMvpFragment<SearchAndSuggestionContract.
         activity?.let { startActivity(SearchResultsActivity.makeIntent(it, companyName)) }
     }
 
-    override fun onCompanyClicked(recommendedCompany: String) {
+    override fun onCompanyClicked(company: String) {
         val activity = activity as? FragmentInteractionListener
-        activity?.onCompanyClicked(recommendedCompany)
+        activity?.onCompanyClicked(company)
     }
 
 
-
-
     companion object {
-        fun newInstance(): SearchAndSuggestionFragment {
-            val fragment = SearchAndSuggestionFragment()
-            return fragment
-        }
+        fun newInstance(): SearchAndSuggestionFragment =
+            SearchAndSuggestionFragment()
     }
 
 }

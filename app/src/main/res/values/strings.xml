@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">Github Client</string>
 
-    <string name="internet_down_msg">Looks like internet access is not available</string>
-    <!--Error Handling-->
-    <string name="check_internet_settings">Network Settings</string>
     <string name="suggested">Suggested</string>
     <string name="search">Search</string>
     <string name="history">History</string>
     <string name="search_hint">Enter company name</string>
     <string name="stars">Stars: %d</string>
+
+    <!--Error Handling-->
+    <string name="empty_history_msg">No search terms in history</string>
+    <string name="no_search_results">No search results for %s</string>
+    <string name="no_connection_available">Internet connection not available</string>
+    <string name="check_internet_settings">Network Settings</string>
 </resources>
