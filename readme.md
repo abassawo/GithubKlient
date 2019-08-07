@@ -9,7 +9,9 @@
     1. [Model-View-Presenter](#model-view-presenter)
     1. [Base Classes](#base-classes)
     1. [Third Party Libraries](#third-party-libraries)
-    1. [Error-Handling]
+1. [Design](#design)
+    1. [Flows](#flows)
+    1. [Error-Handling](#error-handling)
 
 ## Overview
 The project contains the following components:
@@ -45,6 +47,19 @@ The app uses the popular MVP architecture to allow for separation of logic and e
 - Timber (better logging tool)
 - Mockito (mocks out classes for tests)
 
-### Error Handling
+## Design
+### Flows
+- Home screen offers two viewpager tabs with different flows for searching github repos
+(either by searching a query from the Search tab or re-searching a persisted query from the History tab)
+- From search/suggestions, either enter a new query in the searchview or click an existing suggested terms
+- The history page showcases a contrived example of persisting data with SharedPreference, though for more involved data, we could've relied on other approaches like SqlLiteDatabase or Room.
+- To delete an item from shared preference, simply swipe left on said item.
+
+###  Error Handling
+- Leverage MVP construct to support error-handling at presenter and view level, and testing these interactions
+- Use of kotlin sealed class to represent possible loading, success, and error states
+- Use custom exception to detect no connectivity to better provide prompts to user when network is unavailable
 
 ### Preview
+![GithubKlient](https://i.imgur.com/QkasZKrl.png)
+![GithubKlient](https://i.imgur.com/4y5elfEl.png)
