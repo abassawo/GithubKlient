@@ -35,6 +35,10 @@ class SearchResultsActivity : BaseMvpActivity<SearchResultsContract.Presenter>()
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setupRecyclerView(recyclerView)
+    }
+
+    override fun onResume() {
+        super.onResume()
         presenter.bindView(this)
         presenter.onQueryEntered(intent.extras[QUERY_KEY].toString())
     }

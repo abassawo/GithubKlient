@@ -51,7 +51,7 @@ The app uses the popular MVP architecture to allow for separation of logic and e
 ### Flows
 - Home screen offers two viewpager tabs with different flows for searching github repos
 (either by searching a query from the Search tab or re-searching a persisted query from the History tab)
-- From search/suggestions, either enter a new query in the searchview or click an existing suggested terms
+- From search/suggestions, either enter a new query in the search field or click an existing suggested terms
 - The history page showcases a contrived example of persisting data with SharedPreference, though for more involved data, we could've relied on other approaches like SqlLiteDatabase or Room.
 - To delete an item from shared preference, simply swipe left on said item.
 

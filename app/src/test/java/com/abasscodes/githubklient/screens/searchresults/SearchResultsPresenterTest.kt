@@ -4,6 +4,7 @@ import com.abasscodes.githubklient.BasePresenterTest
 import com.abasscodes.githubklient.models.RepoModel
 import com.abasscodes.githubklient.utils.connectivity.NoConnectivityException
 import io.reactivex.Single
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -64,6 +65,19 @@ class SearchResultsPresenterTest : BasePresenterTest<SearchResultsPresenter>() {
         presenter.onQueryEntered("nytimes")
         testSchedulerProvider.testScheduler.triggerActions()
         verify(mockView).showResultsFragment(mockModels.takeLast(3).asReversed())
+    }
+
+    @Test
+    fun `ensure org with less than 3 starred repos shows results if less than 3`() {
+        val mockModels = initModels(100, 200)
+        whenever(mockRestApi.searchRepo("nytimes")).thenReturn(Single.just(mockModels))
+
+        presenter.onQueryEntered("nytimes")
+        testSchedulerProvider.testScheduler.triggerActions()
+
+        val count = Math.min(SearchResultsPresenter.NUM_TOP_RATED_ITEMS, mockModels.size)
+        assertEquals(count, 2)
+        verify(mockView).showResultsFragment(mockModels.takeLast(count).asReversed())
     }
 
     @Test
