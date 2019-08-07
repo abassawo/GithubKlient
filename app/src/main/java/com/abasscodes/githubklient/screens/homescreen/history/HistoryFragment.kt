@@ -31,7 +31,8 @@ class HistoryFragment : BaseMvpFragment<HistoryContract.Presenter>(), HistoryCon
         presenter.bindView(this)
     }
 
-    fun refresh() {
+    override fun onResume() {
+        super.onResume()
         presenter.onViewBound()
     }
 
@@ -76,5 +77,9 @@ class HistoryFragment : BaseMvpFragment<HistoryContract.Presenter>(), HistoryCon
     override fun onCompanyClicked(company: String) {
         val activity = activity as? FragmentInteractionListener
         activity?.onCompanyClicked(company)
+    }
+
+    companion object {
+        fun newInstance(): HistoryFragment = HistoryFragment()
     }
 }

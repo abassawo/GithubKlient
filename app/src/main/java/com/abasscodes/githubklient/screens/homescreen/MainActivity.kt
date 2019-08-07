@@ -28,22 +28,6 @@ class MainActivity : AppCompatActivity(),
             adapter = tabAdapter
             currentItem = 0
             tabs.setupWithViewPager(this)
-
-            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-
-                override fun onPageScrollStateChanged(state: Int) {}
-
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
-                ) {
-                }
-
-                override fun onPageSelected(position: Int) {
-                    tabAdapter.refresh(position)
-                }
-            })
         }
 
     override fun onCompanyClicked(company: String) {

@@ -13,13 +13,11 @@ class TabAdapter(context: Context, fragmentManager: FragmentManager) : FragmentS
     private val fragments = mutableListOf<Fragment>()
     private val titles = mutableListOf<String>()
 
-    private val historyFragment: HistoryFragment = HistoryFragment()
-
     init {
         for (value in PageNames.values()) {
             when (value) {
                 PageNames.Search ->  addFragment(SearchAndSuggestionFragment.newInstance(), context.getString(R.string.search))
-                PageNames.HistoryPage -> addFragment(historyFragment, context.getString(R.string.history))
+                PageNames.HistoryPage -> addFragment(HistoryFragment.newInstance(), context.getString(R.string.history))
             }
         }
         notifyDataSetChanged()
@@ -28,12 +26,6 @@ class TabAdapter(context: Context, fragmentManager: FragmentManager) : FragmentS
     private fun addFragment(fragment: Fragment, title: String) {
         fragments.add(fragment)
         titles.add(title)
-    }
-
-    fun refresh(position: Int) {
-        when(position){
-            PageNames.HistoryPage.ordinal -> historyFragment.refresh()
-        }
     }
 
     override fun getItem(position: Int) = fragments[position]
